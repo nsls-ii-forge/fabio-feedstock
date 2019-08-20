@@ -3,7 +3,7 @@
 {% set sha256 = "5f3971b7d8a22410eab6eedb5725271304708feaa54a0fcb941ea54d3aa394d9" %}
 
 package:
-  name: fabio
+  name: {{ name }}
   version: {{ version }}
 
 source:
@@ -12,9 +12,9 @@ source:
   sha256: {{ sha256 }}
 
 build:
-
+  skip: True  # [py<36]
   number: 0
-  script: "{{ PYTHON }} -m pip install . --no-deps --ignore-installed -vv"
+  script: "{{ PYTHON }} -m pip install . --no-deps -vv"
 
 requirements:
   build:
@@ -24,12 +24,12 @@ requirements:
     - cython
     - numpy
     - pip
-    - setuptools
     # could use opencl, but need the package on conda-forge first
     # - opencl
   run:
     - python
     - {{ pin_compatible('numpy') }}
+
 test:
   imports:
     - fabio
